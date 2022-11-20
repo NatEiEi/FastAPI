@@ -19,11 +19,3 @@ def query_get(sql,param):
         with connection.cursor() as cursor:
             cursor.execute(sql,param)
             return cursor.fetchall()
-
-def query_put(sql,param):
-    connection = init_connection()
-    with connection:
-        with connection.cursor() as cursor:
-            cursor.execute(sql,param)
-            connection.commit()
-            return cursor.lastrowid
