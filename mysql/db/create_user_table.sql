@@ -1,4 +1,4 @@
--- CREATE DATABASE IF NOT EXISTS fastapi_app;
+CREATE DATABASE IF NOT EXISTS fastapi_app;
 USE fastapi_app;
 
 CREATE TABLE accidents (
