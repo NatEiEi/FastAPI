@@ -1,0 +1,50 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql
+    build: ./mysql/
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql/db:/mysql/db
+    environment:
+      - MYSQL_ROOT_PASSWORD=archmage
+      - MYSQL_DATABASE=fastapi_app
+    tty: true
+    networks:
+      - dev_network
+      
+  api:
+    depends_on:
+      - mysql
+    container_name: fast_api
+    build: ./api
+    restart: always
+    tty: true
+    volumes:
+      - ./api:/app
+    ports:
+      - '8000:8000'
+    environment:
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=archmage
+      - DATABASE=fastapi_app
+      - DATABASE_HOST=mysql
+    networks:
+      - dev_network
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
