@@ -2,17 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from database.query import query_get, query_put
 
-class Accident(BaseModel):
-    accident_date : str
-    accident_time : str
-    step :str
-    ad_state :str
-    acman_rec :int
-    acfem_rec :int
-    deadman_rec :int
-    deadfem_rec :int
-    cause_type :str
-
 
 app = FastAPI()
 
@@ -29,14 +18,14 @@ def get_all():
     return {"All accidents " : accident}
 
 
-@app.get("/get-at-row/{row}")
-def get_at_row(row:int):
+def get_at_row(row: int):
     accident = query_get(
     """
         SELECT * FROM accidents 
-        LIMIT %d,1;
+        LIMIT %s , 1
     """,(row-1))
     return {"Random accidents data " : accident}
+
 
 
 @app.get("/get-by-date/{date}")
